@@ -1,0 +1,23 @@
+version: '3'
+
+services:
+  ejabberd:
+    build: .
+    container_name: ejabberd
+    environment:
+      - EJABBERD_HOST=servergea.servergea.local
+      - EJABBERD_DOMAIN=servergea.servergea.local
+      - EJABBERD_ADMIN=admin@servergea.servergea.local
+      - EJABBERD_ADMIN_PASSWORD=password
+    ports:
+      - "5222:5222"
+      - "5269:5269"
+      - "5280:5280"
+    volumes:
+      - ejabberd_data:/var/lib/ejabberd
+      - ejabberd_logs:/var/log/ejabberd
+    restart: always
+
+volumes:
+  ejabberd_data:
+  ejabberd_logs:
