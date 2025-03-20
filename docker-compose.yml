@@ -1,0 +1,52 @@
+services:
+  xmpp-server:
+    image: ejabberd/ecs:latest
+    container_name: xmpp_server
+    environment:
+      - EJABBERD_ADMIN=admin@localhost
+      - EJABBERD_PASSWORD=passwd123123
+      - EJABBERD_DOMAIN=localhost
+    ports:
+      - "5222:5222" # XMPP client connection port
+      - "5280:5280" # Web admin port
+    volumes:
+      - ejabberd_data:/var/lib/ejabberd
+    restart: unless-stopped
+
+  pidgin_1:
+    image: lscr.io/linuxserver/pidgin:latest
+    container_name: pidgin_client_1
+    networks:
+      - pidgin_network
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Etc/UTC
+    volumes:
+      - /config_x:/config
+    ports:
+      - 3000:3000
+    restart: unless-stopped
+
+  pidgin_2:
+    image: lscr.io/linuxserver/pidgin:latest
+    container_name: pidgin_client_2
+    networks:
+      - pidgin_network
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Etc/UTC
+    volumes:
+      - /config_p:/config
+    ports:
+      - 3001:3001
+    restart: unless-stopped
+
+networks:
+  pidgin_network:
+    driver: bridge
+
+volumes:
+  ejabberd_data:
+
