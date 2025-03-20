@@ -11,8 +11,10 @@ services:
       - EJABBERD_ADMIN_PASSWORD=password
     ports:
       - "5222:5222"
+      - "5223:5223"
       - "5269:5269"
       - "5280:5280"
+      - "5443:5443"
     volumes:
       - ejabberd_data:/var/lib/ejabberd
       - ejabberd_logs:/var/log/ejabberd
